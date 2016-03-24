@@ -1,4 +1,4 @@
-package com.ezr;
+package com.ezr.compiler;
 
 import java.lang.reflect.Method;
 

@@ -3,7 +3,7 @@ package com.tests;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.ezr.InMemoryEzReflectionsCompiler;
+import com.ezr.compiler.InMemoryEzReflectionsCompiler;
 
 public class TestMain {
 	public static void main(String[] args) throws IllegalAccessException,
