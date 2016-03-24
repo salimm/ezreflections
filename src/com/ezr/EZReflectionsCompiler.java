@@ -1,6 +1,8 @@
 package com.ezr;
 
-public abstract class EZReflectionsCompiler {
+import java.lang.reflect.Method;
+
+public abstract class EZReflectionsCompiler  {
 
 	public EZReflectionsCompiler() {
 
@@ -16,11 +18,14 @@ public abstract class EZReflectionsCompiler {
 			throws ClassNotFoundException;
 
 	/**
-	 * This function compiles a class and returns a class object from java.lang
+	 * This function returns a Method object from a static function. For none
+	 * static use Class because the obj is needed to call the method
 	 * 
 	 * @param clsName
 	 * @return
 	 */
-	public abstract Class<?> compileMethod(String methodName, String methodSrc);
+	public abstract Method compileStaticMethod(String methodName, String methodSrc,
+			Class<?>[] parameterTypes) throws ClassNotFoundException,
+			NoSuchMethodException, SecurityException ;
 
 }
