@@ -26,10 +26,11 @@ public class InMemoryEzReflectionsCompiler extends EZReflectionsCompiler {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		InMemoryJavaFileObjectList fileObjects = new InMemoryJavaFileObjectList();
 		@SuppressWarnings("rawtypes")
-		DiagnosticCollector diagnosticListener = new DiagnosticCollector<InMemoryFileObject>();
+		DiagnosticCollector diagnosticListener = new DiagnosticCollector();
+
 		SingleFileManager singleFileManager = new SingleFileManager(compiler,
 				new ByteCode(clsName));
-		fileObjects.addSrcString(clsSrc);
+		fileObjects.addSrcString(clsName, clsSrc);
 		@SuppressWarnings("unchecked")
 		CompilationTask compile = compiler.getTask(null, singleFileManager,
 				diagnosticListener, null, null, fileObjects);
@@ -58,9 +59,8 @@ public class InMemoryEzReflectionsCompiler extends EZReflectionsCompiler {
 		String clsName = "TempClass" + System.currentTimeMillis();
 		String clsSrc = "public class " + clsName + " { \n" + "" + methodSrc
 				+ " \n" + "}";
-
 		Class<?> cls = compileClass(clsName, clsSrc);
-		return cls.getDeclaredMethod(clsName, parameterTypes);
+		return cls.getDeclaredMethod(methodName, parameterTypes);
 	}
 
 	/* A file manager for a single class. */
@@ -100,15 +100,18 @@ class InMemoryJavaFileObjectList implements Iterable<InMemoryFileObject> {
 		list = new ArrayList<InMemoryFileObject>();
 	}
 
-	public InMemoryJavaFileObjectList(ArrayList<String> list) {
+	public InMemoryJavaFileObjectList(ArrayList<String> clsNames,
+			ArrayList<String> list) {
 		this.list = new ArrayList<InMemoryFileObject>();
+		int index = 0;
 		for (String str : list) {
-			this.list.add(new InMemoryFileObject("Test", str));
+			this.list.add(new InMemoryFileObject(clsNames.get(index), str));
+			index++;
 		}
 	}
 
-	public void addSrcString(String src) {
-		this.list.add(new InMemoryFileObject("Test", src));
+	public void addSrcString(String clsName, String src) {
+		this.list.add(new InMemoryFileObject(clsName, src));
 	}
 
 	@Override
@@ -169,7 +172,8 @@ class SingleClassLoader extends ClassLoader {
 	}
 
 	@Override
-	protected Class<?> findClass(String className) throws ClassNotFoundException {
+	protected Class<?> findClass(String className)
+			throws ClassNotFoundException {
 		return defineClass(className, byteCode_.getByteCode(), 0,
 				byteCode_.getByteCode().length);
 	}
