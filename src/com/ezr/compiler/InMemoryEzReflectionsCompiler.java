@@ -46,9 +46,10 @@ public class InMemoryEzReflectionsCompiler extends EZReflectionsCompiler {
 	public Method compileStaticMethod(String methodName, String methodSrc,
 			Class<?>[] parameterTypes) throws ClassNotFoundException,
 			NoSuchMethodException, SecurityException, NotAStaticMethodException {
-		Pattern p = Pattern.compile("^[ |\t|\r|\n|\r|\b]*public[ |\t|\r|\n|\r|\b]+static.*");
-		
-		if(!p.matcher(methodSrc).find()){
+		Pattern p = Pattern
+				.compile("^[ |\t|\r|\n|\r|\b]*public[ |\t|\r|\n|\r|\b]+static.*");
+
+		if (!p.matcher(methodSrc).find()) {
 			throw new NotAStaticMethodException(methodName, methodSrc);
 		}
 		String clsName = "TempClass" + System.currentTimeMillis();

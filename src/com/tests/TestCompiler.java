@@ -2,6 +2,9 @@ package com.tests;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.ezr.compiler.InMemoryEzReflectionsCompiler;
 import com.ezr.errors.NotAStaticMethodException;
 
@@ -11,7 +14,7 @@ public class TestCompiler {
 			InstantiationException, NoSuchMethodException, SecurityException,
 			ClassNotFoundException, NotAStaticMethodException {
 		InMemoryEzReflectionsCompiler compiler = new InMemoryEzReflectionsCompiler();
-		
+
 		String clsSrc = "" + "public class Test{ \n" + ""
 				+ "	public String test(){ \n" + "		return \"Test\";\n" + "	}\n"
 				+ "	public static int testStatic(Integer i){\n"
@@ -33,7 +36,7 @@ public class TestCompiler {
 		Method method3 = compiler.compileStaticMethod("testStatic", methodSrc,
 				new Class<?>[] { Integer.class });
 		System.out.println(method3.invoke(null, new Object[] { 10 }));
-		
-	}
 
+
+	}
 }
