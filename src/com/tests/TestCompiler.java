@@ -37,6 +37,7 @@ public class TestCompiler {
 				new Class<?>[] { Integer.class });
 		System.out.println(method3.invoke(null, new Object[] { 10 }));
 
-
+		String s = "public class Rule1 extends DispatcherRule{\n\tpublic boolean isAcceptable(HashMap<String, Object> row){\n\t\tif(row.get(\"CODE\") == 1)\n\t\t\treturn true;\n\t\treturn false;\n\t}\n    \n    public String categoryName(){\n\t\treturn \"OUT1\";\n    }\n    \n}";
+		compiler.compileClass(s);
 	}
 }

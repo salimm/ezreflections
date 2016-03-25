@@ -33,7 +33,7 @@ public abstract class EZReflectionsCompiler {
 		String clsName = null;
 
 		Pattern p = Pattern
-				.compile(".*class[ |\t|\r|\n|\r|\b]+([a-z|A-z|0-9|_|-]+)[ |\t|\r|\n|\r|\b]*\\{.*");
+				.compile(".*class[ |\t|\r|\n|\r|\b]+([a-z|A-z|0-9|_|-]+)[ |\t|\r|\n|\r|\b]*[\\{|extends|implements].*");
 		Matcher matcher = p.matcher(clsSrc);
 
 		if (matcher.find()) {
