@@ -1,9 +1,11 @@
-package com.ezr;
+package com.ezr.loaders;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ezr.errors.PackageNotFoundException;
 
 /**
  * This class provides utils to find classes and instantiate them
@@ -11,23 +13,28 @@ import java.util.List;
  * @author Salim
  *
  */
-public class ezReflectionsClassLoader {
+public class EzReflectionsClassLoader {
 	private static final char PKG_SEPARATOR = '.';
 
 	private static final char DIR_SEPARATOR = '/';
 
 	private static final String CLASS_FILE_SUFFIX = ".class";
 
-	private static final String BAD_PACKAGE_ERROR = "Unable to get resources from path '%s'. Are you sure the package '%s' exists?";
-
-	public static List<Class<?>> find(String scannedPackage) {
+	/**
+	 * This function returns list of Class objects for classes in a package
+	 * 
+	 * @param scannedPackage
+	 * @return
+	 * @throws PackageNotFoundException
+	 */
+	public List<Class<?>> find(String scannedPackage)
+			throws PackageNotFoundException {
 		String scannedPath = scannedPackage.replace(PKG_SEPARATOR,
 				DIR_SEPARATOR);
 		URL scannedUrl = Thread.currentThread().getContextClassLoader()
 				.getResource(scannedPath);
 		if (scannedUrl == null) {
-			throw new IllegalArgumentException(String.format(BAD_PACKAGE_ERROR,
-					scannedPath, scannedPackage));
+			throw new PackageNotFoundException(scannedPackage);
 		}
 		File scannedDir = new File(scannedUrl.getFile());
 		List<Class<?>> classes = new ArrayList<Class<?>>();
@@ -37,7 +44,7 @@ public class ezReflectionsClassLoader {
 		return classes;
 	}
 
-	private static List<Class<?>> find(File file, String scannedPackage) {
+	private List<Class<?>> find(File file, String scannedPackage) {
 		List<Class<?>> classes = new ArrayList<Class<?>>();
 		String resource = scannedPackage + PKG_SEPARATOR + file.getName();
 		if (file.isDirectory()) {
@@ -53,6 +60,10 @@ public class ezReflectionsClassLoader {
 			}
 		}
 		return classes;
+	}
+
+	public Class<?> loadClass(String clsPath) throws ClassNotFoundException {
+		return Class.forName(clsPath);
 	}
 
 }

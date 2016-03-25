@@ -2,7 +2,9 @@ package com.ezr.compiler;
 
 import java.lang.reflect.Method;
 
-public abstract class EZReflectionsCompiler  {
+import com.ezr.errors.NotAStaticMethodException;
+
+public abstract class EZReflectionsCompiler {
 
 	public EZReflectionsCompiler() {
 
@@ -24,8 +26,9 @@ public abstract class EZReflectionsCompiler  {
 	 * @param clsName
 	 * @return
 	 */
-	public abstract Method compileStaticMethod(String methodName, String methodSrc,
-			Class<?>[] parameterTypes) throws ClassNotFoundException,
-			NoSuchMethodException, SecurityException ;
+	public abstract Method compileStaticMethod(String methodName,
+			String methodSrc, Class<?>[] parameterTypes)
+			throws ClassNotFoundException, NoSuchMethodException,
+			SecurityException, NotAStaticMethodException;
 
 }

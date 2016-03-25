@@ -2,15 +2,16 @@ package com.tests;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import com.ezr.compiler.InMemoryEzReflectionsCompiler;
+import com.ezr.errors.NotAStaticMethodException;
 
-public class TestMain {
+public class TestCompiler {
 	public static void main(String[] args) throws IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException,
 			InstantiationException, NoSuchMethodException, SecurityException,
-			ClassNotFoundException {
+			ClassNotFoundException, NotAStaticMethodException {
 		InMemoryEzReflectionsCompiler compiler = new InMemoryEzReflectionsCompiler();
+		
 		String clsSrc = "" + "public class Test{ \n" + ""
 				+ "	public String test(){ \n" + "		return \"Test\";\n" + "	}\n"
 				+ "	public static int testStatic(Integer i){\n"
@@ -29,10 +30,10 @@ public class TestMain {
 				new Object[] { 10 })));
 		String methodSrc = "	public static int testStatic(Integer i){\n"
 				+ "		return i;\n" + "	}\n";
-
 		Method method3 = compiler.compileStaticMethod("testStatic", methodSrc,
 				new Class<?>[] { Integer.class });
 		System.out.println(method3.invoke(null, new Object[] { 10 }));
+		
 	}
 
 }
