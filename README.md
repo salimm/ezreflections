@@ -94,3 +94,15 @@ Example for loading classes in a package:
 			System.out.println(cls.getName());
 		}
 ```
+
+# Possible Problems
+if you are having problem with running the code some of the possible issues can be:
+
+1. You might be getting NullPointer Exception at ToolProvider.getSystemJavaCompiler()
+ 
+This usually happens if you are using JRE libraries instead of JDK libraries.
+
+In order to fix this is Eclipse go to Eclipse preferences and under Java->Installed JREs choose your jdk library as default. If doesn't exist try adding it. 
+
+In bash and command line set your JAVA_HOME enviroment variale to the jdk directory.
+
