@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import com.ezr.errors.PackageNotFoundException;
-import com.ezr.loaders.EzReflectionsClassLoader;
+import com.ezr.loaders.EZClassLoader;
 
 public class TestClassLoader {
 
@@ -13,7 +13,7 @@ public class TestClassLoader {
 			IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, PackageNotFoundException {
 		// testing class loader
-		EzReflectionsClassLoader clsLoader = new EzReflectionsClassLoader();
+		EZClassLoader clsLoader = new EZClassLoader();
 		Class<?> strClass = clsLoader.loadClass(String.class.getName());
 		String str = (String) strClass.getConstructor(
 				new Class[] { String.class }).newInstance(
