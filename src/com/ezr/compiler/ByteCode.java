@@ -16,9 +16,11 @@ import javax.tools.SimpleJavaFileObject;
 public class ByteCode extends SimpleJavaFileObject {
 
 	private ByteArrayOutputStream byteArrayOutputStream;
+	private String className;
 
 	public ByteCode(String className) {
 		super(URI.create("byte:///" + className + ".class"), Kind.CLASS);
+		this.setClassName(className);
 	}
 
 	@Override
@@ -39,6 +41,14 @@ public class ByteCode extends SimpleJavaFileObject {
 
 	public byte[] getByteCode() {
 		return byteArrayOutputStream.toByteArray();
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
 	}
 
 }

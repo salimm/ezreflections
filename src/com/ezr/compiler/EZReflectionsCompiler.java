@@ -1,6 +1,8 @@
 package com.ezr.compiler;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,18 +23,20 @@ public abstract class EZReflectionsCompiler {
 	 * @param clsSrc
 	 * @param options: list of compiler task options
 	 * @return
+	 * @throws IOException 
 	 */
-	public abstract Class<?> compileClass(String clsName, String clsSrc, Iterable<String> options)
-			throws ClassNotFoundException;
+	public abstract Class<?> compileClass(String clsName, String clsSrc, List<String> options)
+			throws ClassNotFoundException, IOException;
 	
 	/**
 	 * This function compiles a class and returns a class object from java.lang
 	 * 
 	 * @param clsName
 	 * @return
+	 * @throws IOException 
 	 */
 	public  Class<?> compileClass(String clsName, String clsSrc)
-			throws ClassNotFoundException{
+			throws ClassNotFoundException, IOException{
 		return compileClass(clsName, clsSrc, null);
 	}
 
@@ -41,8 +45,9 @@ public abstract class EZReflectionsCompiler {
 	 * 
 	 * @param clsName
 	 * @return
+	 * @throws IOException 
 	 */
-	public Class<?> compileClass(String clsSrc, Iterable<String> options) throws ClassNotFoundException {
+	public Class<?> compileClass(String clsSrc, List<String> options) throws ClassNotFoundException, IOException {
 		String clsName = null;
 
 		Pattern p = Pattern
@@ -63,8 +68,9 @@ public abstract class EZReflectionsCompiler {
 	 * 
 	 * @param clsName
 	 * @return
+	 * @throws IOException 
 	 */
-	public Class<?> compileClass(String clsSrc) throws ClassNotFoundException {
+	public Class<?> compileClass(String clsSrc) throws ClassNotFoundException, IOException {
 		String clsName = null;
 
 		Pattern p = Pattern
@@ -86,11 +92,12 @@ public abstract class EZReflectionsCompiler {
 	 * 
 	 * @param clsName
 	 * @return
+	 * @throws IOException 
 	 */
 	public abstract Method compileStaticMethod(String methodName,
 			String methodSrc, Class<?>[] parameterTypes)
 			throws ClassNotFoundException, NoSuchMethodException,
-			SecurityException, NotAStaticMethodException;
+			SecurityException, NotAStaticMethodException, IOException;
 
 	/**
 	 * This function compiles a class and returns a class object from java.lang
@@ -100,10 +107,11 @@ public abstract class EZReflectionsCompiler {
 	 * @throws NotAStaticMethodException
 	 * @throws SecurityException
 	 * @throws NoSuchMethodException
+	 * @throws IOException 
 	 */
 	public Method compileStaticMethod(String methodSrc,
 			Class<?>[] parameterTypes) throws ClassNotFoundException,
-			NoSuchMethodException, SecurityException, NotAStaticMethodException {
+			NoSuchMethodException, SecurityException, NotAStaticMethodException, IOException {
 		String methodName = null;
 
 		Pattern p = Pattern

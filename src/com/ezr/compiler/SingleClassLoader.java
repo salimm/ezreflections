@@ -1,5 +1,7 @@
 package com.ezr.compiler;
 
+import java.net.URL;
+
 /**
  * A class loader for a single class. Thanks to
  * http://normalengineering.com.au/normality
@@ -11,16 +13,22 @@ public class SingleClassLoader extends ClassLoader {
 	 * holds the ByteCode in memory
 	 */
 	private final ByteCode byteCode;
-
-	public SingleClassLoader(ByteCode byteCode) {
+	private String clsName;
+	
+	public SingleClassLoader(URL[] urls, ByteCode byteCode) {
+		super(Thread.currentThread().getContextClassLoader());
+		this.clsName = byteCode.getClassName();
 		this.byteCode = byteCode;
 	}
 
-	@Override
-	public Class<?> findClass(String className)
+	public Class<?> lookup(String className)
 			throws ClassNotFoundException {
-		return defineClass(className, byteCode.getByteCode(), 0,
-				byteCode.getByteCode().length);
+		if(clsName.equals(className)){
+			return defineClass(className, byteCode.getByteCode(), 0,
+					byteCode.getByteCode().length);
+		}else{
+			return super.findClass(className);
+		}
 	}
 
 	ByteCode getFileObject() {
