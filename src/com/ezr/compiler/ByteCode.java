@@ -13,7 +13,7 @@ import javax.tools.SimpleJavaFileObject;
  * .au/normality/c-and-java-code-snippets/java-runtime-compilation-in-memory/
  * for this section
  */
-class ByteCode extends SimpleJavaFileObject {
+public class ByteCode extends SimpleJavaFileObject {
 
 	private ByteArrayOutputStream byteArrayOutputStream;
 

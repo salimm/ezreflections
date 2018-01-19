@@ -6,7 +6,7 @@ package com.ezr.compiler;
  * /c-and-java-code-snippets/java-runtime-compilation-in-memory/ for this
  * section
  */
-class SingleClassLoader extends ClassLoader {
+public class SingleClassLoader extends ClassLoader {
 	/**
 	 * holds the ByteCode in memory
 	 */
@@ -17,7 +17,7 @@ class SingleClassLoader extends ClassLoader {
 	}
 
 	@Override
-	protected Class<?> findClass(String className)
+	public Class<?> findClass(String className)
 			throws ClassNotFoundException {
 		return defineClass(className, byteCode.getByteCode(), 0,
 				byteCode.getByteCode().length);

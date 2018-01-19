@@ -18,11 +18,46 @@ public abstract class EZReflectionsCompiler {
 	 * This function compiles a class and returns a class object from java.lang
 	 * 
 	 * @param clsName
+	 * @param clsSrc
+	 * @param options: list of compiler task options
 	 * @return
 	 */
-	public abstract Class<?> compileClass(String clsName, String clsSrc)
+	public abstract Class<?> compileClass(String clsName, String clsSrc, Iterable<String> options)
 			throws ClassNotFoundException;
+	
+	/**
+	 * This function compiles a class and returns a class object from java.lang
+	 * 
+	 * @param clsName
+	 * @return
+	 */
+	public  Class<?> compileClass(String clsName, String clsSrc)
+			throws ClassNotFoundException{
+		return compileClass(clsName, clsSrc, null);
+	}
 
+	/**
+	 * This function compiles a class and returns a class object from java.lang
+	 * 
+	 * @param clsName
+	 * @return
+	 */
+	public Class<?> compileClass(String clsSrc, Iterable<String> options) throws ClassNotFoundException {
+		String clsName = null;
+
+		Pattern p = Pattern
+				.compile(".*class[ |\t|\r|\n|\r|\b]+([a-z|A-z|0-9|_|-]+)[ |\t|\r|\n|\r|\b]*[\\{|extends|implements].*");
+		Matcher matcher = p.matcher(clsSrc);
+
+		if (matcher.find()) {
+			clsName = matcher.group(1);
+		} else {
+			throw new SyntaxException(
+					"Class does not match syntax. Cannot extract the class name");
+		}
+		return compileClass(clsName, clsSrc,options);
+	}
+	
 	/**
 	 * This function compiles a class and returns a class object from java.lang
 	 * 
@@ -57,4 +92,30 @@ public abstract class EZReflectionsCompiler {
 			throws ClassNotFoundException, NoSuchMethodException,
 			SecurityException, NotAStaticMethodException;
 
+	/**
+	 * This function compiles a class and returns a class object from java.lang
+	 * 
+	 * @param clsName
+	 * @return
+	 * @throws NotAStaticMethodException
+	 * @throws SecurityException
+	 * @throws NoSuchMethodException
+	 */
+	public Method compileStaticMethod(String methodSrc,
+			Class<?>[] parameterTypes) throws ClassNotFoundException,
+			NoSuchMethodException, SecurityException, NotAStaticMethodException {
+		String methodName = null;
+
+		Pattern p = Pattern
+				.compile("^[ |\t|\r|\n|\r|\b]*public[ |\t|\r|\n|\r|\b]+.*[ |\t|\r|\n|\r|\b]([a-z|A-z|0-9|_|-]+)\\(");
+		Matcher matcher = p.matcher(methodSrc);
+
+		if (matcher.find()) {
+			methodName = matcher.group(1);
+		} else {
+			throw new SyntaxException(
+					"Class does not match syntax. Cannot extract the class name");
+		}
+		return compileStaticMethod(methodName, methodSrc, parameterTypes);
+	}
 }

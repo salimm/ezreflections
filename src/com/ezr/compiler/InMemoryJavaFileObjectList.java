@@ -3,7 +3,7 @@ package com.ezr.compiler;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-class InMemoryJavaFileObjectList implements Iterable<InMemoryFileObject> {
+public class InMemoryJavaFileObjectList implements Iterable<InMemoryFileObject> {
 	ArrayList<InMemoryFileObject> list;
 
 	public InMemoryJavaFileObjectList() {

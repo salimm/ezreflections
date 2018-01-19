@@ -13,7 +13,7 @@ import com.ezr.errors.PackageNotFoundException;
  * @author Salim
  *
  */
-public class EZClassLoader {
+public class EzReflectionsClassLoader {
 	private static final char PKG_SEPARATOR = '.';
 
 	private static final char DIR_SEPARATOR = '/';
@@ -65,6 +65,5 @@ public class EZClassLoader {
 	public Class<?> loadClass(String clsPath) throws ClassNotFoundException {
 		return Class.forName(clsPath);
 	}
-	
 
 }

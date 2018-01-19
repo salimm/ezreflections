@@ -4,7 +4,7 @@ import java.net.URI;
 
 import javax.tools.SimpleJavaFileObject;
 
-class InMemoryFileObject extends SimpleJavaFileObject {
+public class InMemoryFileObject extends SimpleJavaFileObject {
 	private String code;
 
 	protected InMemoryFileObject(String name, String code) {

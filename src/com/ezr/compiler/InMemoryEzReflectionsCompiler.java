@@ -13,7 +13,7 @@ import com.ezr.errors.NotAStaticMethodException;
 public class InMemoryEzReflectionsCompiler extends EZReflectionsCompiler {
 
 	@Override
-	public Class<?> compileClass(String clsName, String clsSrc)
+	public Class<?> compileClass(String clsName, String clsSrc, Iterable<String> options)
 			throws ClassNotFoundException {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		InMemoryJavaFileObjectList fileObjects = new InMemoryJavaFileObjectList();
@@ -25,7 +25,7 @@ public class InMemoryEzReflectionsCompiler extends EZReflectionsCompiler {
 		fileObjects.addSrcString(clsName, clsSrc);
 		@SuppressWarnings("unchecked")
 		CompilationTask compile = compiler.getTask(null, singleFileManager,
-				diagnosticListener, null, null, fileObjects);
+				diagnosticListener, options, null, fileObjects);
 		if (!compile.call()) {
 			for (Object diagnostic : diagnosticListener.getDiagnostics()) {
 				System.err.println(diagnostic);
@@ -58,4 +58,5 @@ public class InMemoryEzReflectionsCompiler extends EZReflectionsCompiler {
 		Class<?> cls = compileClass(clsName, clsSrc);
 		return cls.getDeclaredMethod(methodName, parameterTypes);
 	}
+	
 }
